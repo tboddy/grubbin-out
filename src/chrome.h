@@ -1,5 +1,5 @@
-// #define ZONE_OVER_CHROME_LIMIT 1
-#define ZONE_OVER_CHROME_LIMIT 240
+#define ZONE_OVER_CHROME_LIMIT 1
+// #define ZONE_OVER_CHROME_LIMIT 240
 
 s16 zoneOverClock, zoneOverStage, bossTileIndex;
 s8 chromePlayerLives, chromePlayerBombs;

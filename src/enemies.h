@@ -46,9 +46,11 @@ void checkEnemyBulletCollision(s16 i){
 	if(enemyBulletCollisionDistance < intToFix32(bullets[i].xOffset) && !playerRecovering){
 		spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), FALSE);
 		destroyEnemyBullet(i);
-		// hitPlayer = TRUE;
-		// killBullets = TRUE;
-		// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
+		if(!demo){
+			// hitPlayer = TRUE;
+			// killBullets = TRUE;
+			// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
+		}
 	} else if(!bullets[i].grazed){
 		bullets[i].grazed = TRUE;
 		currentScore += 50;

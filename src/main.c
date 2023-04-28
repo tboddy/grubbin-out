@@ -45,8 +45,8 @@ void loadResources(){
 
 void loadGame(){
 	// demo = TRUE;
-	currentZone = 1;
-	// zoneOver = TRUE;
+	currentZone = 4;
+	zoneOver = TRUE;
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
@@ -155,8 +155,8 @@ int main() {
 	loadResources();
 	SPR_init(0, 0, 0);
 	VDP_setScreenWidth256();
-	loadStart();
-	// loadGame();
+	// loadStart();
+	loadGame();
 	playerLives = 2;
 	playerBombs = 3;
 	while(1){
