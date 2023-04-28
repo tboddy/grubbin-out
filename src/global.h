@@ -26,7 +26,7 @@
 bool gameOver, noMiss, paused, pausing, zoneOver, zoneStarting, gameStarting, noMiss, doZoneStart, demo;
 bool killBullets;
 
-u16 gameClock;
+u16 gameClock, demoClock;
 u8 centipedeCount;
 
 s16 currentZone, gameOverClock, bossMax, lastBossHealth;

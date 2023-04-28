@@ -44,9 +44,9 @@ void loadResources(){
 }
 
 void loadGame(){
-	demo = TRUE;
-	currentZone = 4;
-	zoneOver = TRUE;
+	// demo = TRUE;
+	currentZone = 1;
+	// zoneOver = TRUE;
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
@@ -68,6 +68,9 @@ void resetGame(){
 	VDP_clearPlane(BG_A, TRUE);
 	VDP_clearPlane(BG_B, TRUE);
 	DMA_waitCompletion();
+	startClock = 0;
+	demoStartClock = 0;
+	demoClock = 0;
 	startClock = 0;
 	zoneOver = FALSE;
 	started = FALSE;
@@ -106,6 +109,7 @@ void updateGame(){
 		if(gameClock >= CLOCK_LIMIT) gameClock = 0;
 	}
 	updateChrome();
+	if(demo) demoClock++;
 	if(zoneStarting) zoneStarting = FALSE;
 	if(gameStarting) gameStarting = FALSE;
 	if(doZoneStart){
@@ -121,6 +125,7 @@ void updateGame(){
 		if(gameOverClock < 600) gameOverClock++;
 		if(gameOverClock >= 120 && (controls.a || controls.b || controls.c || controls.start)) resetGame();
 	}
+	if(demo && demoClock >= 1800) resetGame();
 };
 
 void nextZone(){
@@ -150,8 +155,8 @@ int main() {
 	loadResources();
 	SPR_init(0, 0, 0);
 	VDP_setScreenWidth256();
-	// loadStart();
-	loadGame();
+	loadStart();
+	// loadGame();
 	playerLives = 2;
 	playerBombs = 3;
 	while(1){
