@@ -43,10 +43,11 @@ void loadResources(){
 
 }
 
+u8 demoCount;
+
 void loadGame(){
-	// demo = TRUE;
-	currentZone = 4;
-	zoneOver = TRUE;
+	currentZone = demo ? 11 : 1;
+	// zoneOver = TRUE;
 	started = TRUE;
 	zoneStarting = TRUE;
 	gameStarting = TRUE;
@@ -56,44 +57,49 @@ void loadGame(){
 	currentScore = 0;
 	loadExplosion();
 	// nextZone();
-	// XGM_startPlay(&bgmStage1);
+	XGM_startPlay(demo ? &bgmStage2 : &bgmStage1);
+	if(demo) demoCount++;
+	if(demoCount == 100) demoCount = 0;
 }
 
 void resetGame(){
-	if(boss.active) finishBoss();
-	for(s16 i = 0; i < ENEMY_BULLET_LIMIT; i++) if(bullets[i].active) destroyEnemyBullet(i);
-	resetYins();
-	resetPod();
-	resetCentipede();
-	VDP_clearPlane(BG_A, TRUE);
-	VDP_clearPlane(BG_B, TRUE);
-	DMA_waitCompletion();
-	startClock = 0;
-	demoStartClock = 0;
-	demoClock = 0;
-	startClock = 0;
-	zoneOver = FALSE;
-	started = FALSE;
-	gameOverClock = 0;
-	bombClock = 0;
-	recoverClock = 0;
-	playerShotClock = PLAYER_SHOT_INTERVAL;
-	paused = FALSE;
-	gameOver = FALSE;
-	zoneOverClock = 0;
-	loadedChromeGameOver = FALSE;
-	loadedZoneOver = FALSE;
-	killBulletsClock = 0;
-	zoneStarting = FALSE;
-	gameClock = 0;
-	playerLives = 2;
-	explosionClock = 0;
-	explosionClockPlayerShot = 0;
-	playerBombs = 3;
-	boss.type = 0;
-	noMiss = TRUE;
-	SPR_reset();
-	loadStart();
+	// demo = FALSE;
+	SYS_hardReset();
+	// XGM_stopPlay();
+	// if(boss.active) finishBoss();
+	// for(s16 i = 0; i < ENEMY_BULLET_LIMIT; i++) if(bullets[i].active) destroyEnemyBullet(i);
+	// resetYins();
+	// resetPod();
+	// resetCentipede();
+	// VDP_clearPlane(BG_A, TRUE);
+	// VDP_clearPlane(BG_B, TRUE);
+	// DMA_waitCompletion();
+	// startClock = 0;
+	// demoStartClock = 0;
+	// demoClock = 0;
+	// startClock = 0;
+	// zoneOver = FALSE;
+	// started = FALSE;
+	// gameOverClock = 0;
+	// bombClock = 0;
+	// recoverClock = 0;
+	// playerShotClock = PLAYER_SHOT_INTERVAL;
+	// paused = FALSE;
+	// gameOver = FALSE;
+	// zoneOverClock = 0;
+	// loadedChromeGameOver = FALSE;
+	// loadedZoneOver = FALSE;
+	// killBulletsClock = 0;
+	// zoneStarting = FALSE;
+	// gameClock = 0;
+	// playerLives = 2;
+	// explosionClock = 0;
+	// explosionClockPlayerShot = 0;
+	// playerBombs = 3;
+	// boss.type = 0;
+	// noMiss = TRUE;
+	// SPR_reset();
+	// loadStart();
 	// SYS_reset();
 }
 
@@ -124,8 +130,11 @@ void updateGame(){
 	} else if(gameOver){
 		if(gameOverClock < 600) gameOverClock++;
 		if(gameOverClock >= 120 && (controls.a || controls.b || controls.c || controls.start)) resetGame();
+		if(gameOverClock >= 600) resetGame();
 	}
-	if(demo && demoClock >= 1800) resetGame();
+	if(demo && demoClock >= 1800){
+		resetGame();
+	}
 };
 
 void nextZone(){
@@ -143,7 +152,7 @@ void nextZone(){
 		gameClock = -5;
 		noMiss = TRUE;
 		if(currentZone % 5 == 0) spawnBoss();
-		// XGM_startPlayPCM(SFX_START_GAME, 1, SOUND_PCM_CH2);
+		XGM_startPlayPCM(SFX_START_GAME, 1, SOUND_PCM_CH2);
 		if(currentZone == 11) XGM_startPlay(&bgmStage2);
 	}
 }
@@ -155,8 +164,8 @@ int main() {
 	loadResources();
 	SPR_init(0, 0, 0);
 	VDP_setScreenWidth256();
-	// loadStart();
-	loadGame();
+	loadStart();
+	// loadGame();
 	playerLives = 2;
 	playerBombs = 3;
 	while(1){

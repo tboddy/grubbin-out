@@ -39,7 +39,7 @@ void yinPatternOne(s8 i){
 		yinHone.y = spawner.y;
 		spawner.velocity = hone(yinHone, playerPos, FIX16(yinBulletSpeed), 0);
 		spawnEnemyBullet(spawner, EMPTY);
-		// XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
@@ -56,7 +56,7 @@ void yinPatternTwo(s8 i){
 		yinHone.y = spawner.y;
 		spawner.velocity = hone(yinHone, playerPos, FIX16(yinBulletSpeed), 0);
 		spawnEnemyBullet(spawner, EMPTY);
-		// XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }
@@ -78,7 +78,7 @@ void yinPatternThree(s8 i, s8 count){
 			spawnEnemyBullet(spawner, EMPTY);
 			spawner.ints[0] += 16;
 		}
-		// // XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
+		XGM_startPlayPCM(SFX_BULLET_1, 0, SOUND_PCM_CH3);
 		spawnExplosion(yins[i].pos.x, yins[i].pos.y, FALSE);
 	}
 }

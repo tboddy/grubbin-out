@@ -1,5 +1,5 @@
-#define ZONE_OVER_CHROME_LIMIT 1
-// #define ZONE_OVER_CHROME_LIMIT 240
+// #define ZONE_OVER_CHROME_LIMIT 1
+#define ZONE_OVER_CHROME_LIMIT 240
 
 s16 zoneOverClock, zoneOverStage, bossTileIndex;
 s8 chromePlayerLives, chromePlayerBombs;
@@ -125,7 +125,7 @@ void loadChromeZoneOver(){
 	if(noMiss) currentScore += currentZone >= 10 ? 3500 : 2500;
 	currentScore += currentZone >= 10 ? 1500 : 1000;
 	updateChromeScore();
-	// XGM_startPlayPCM(SFX_ZONE_OVER, 1, SOUND_PCM_CH2);
+	XGM_startPlayPCM(SFX_ZONE_OVER, 1, SOUND_PCM_CH2);
 }
 
 void updateChromeZoneOver(){ // what the fuck am i on to do this
@@ -160,15 +160,15 @@ void updateChromeZoneOver(){ // what the fuck am i on to do this
 void loadChromeGameOver(bool beatIt){
 	XGM_stopPlay();
 	loadedChromeGameOver = TRUE;
-	VDP_drawText(beatIt ? "beat game!" : "game over!", 11, 10);
-	VDP_drawText(currentScore > highScore ? "NEW HI SCORE" : "FINAL SCORE;", 10, 13);
-	VDP_drawText(chromeScoreStr, 12, 15);
-	if(beatIt){
-		VDP_drawText("special thanks", 9, 19);
-		VDP_drawText("TOUHOU GAMEDEV DISCORD", 5, 21);
-	} else VDP_drawText("press any button", 8, 18);
+	VDP_drawText(beatIt ? "beat game!" : "game over!", 11 - 4, 9);
+	VDP_drawText(currentScore > highScore ? "FINAL  SCORE" : "FINAL  SCORE", 10 - 5, 12);
+	VDP_drawText(chromeScoreStr, 12 - 4, 14);
+	// if(beatIt){
+		VDP_drawText("special thanks", 9 - 4, 18);
+		VDP_drawText("TOUHOU GAMEDEV DISCORD", 5 - 4, 20);
+	// } else VDP_drawText("press any button", 8 - 4, 18);
 	if(currentScore > highScore) highScore = currentScore;
-	// XGM_startPlayPCM(beatIt ? SFX_BEAT_GAME : SFX_GAME_OVER, 2, SOUND_PCM_CH2);
+	XGM_startPlayPCM(beatIt ? SFX_BEAT_GAME : SFX_GAME_OVER, 2, SOUND_PCM_CH2);
 }
 
 void loadChromeBeatGame(){
@@ -188,7 +188,12 @@ void loadChromeBeatGame(){
 void updateChromeBoss(){
 	if(lastBossHealth != boss.health){
 		if(lastBossHealth < boss.health){
-			strcpy(bossName, "CHIMATA");
+			switch(boss.type){
+				case 0: strcpy(bossName, "MIKE"); break;
+				case 1: strcpy(bossName, "TSUKASA"); break;
+				case 2: strcpy(bossName, "MEGUMU"); break;
+				case 3: strcpy(bossName, "CHIMATA"); break;
+			}
 			VDP_drawText(bossName, BOSS_TILE_X, BOSS_TILE_Y + 1);
 		}
 		bossLimit = fix16Div(fix16Mul(fix16Div(FIX16(boss.health), FIX16(boss.max)), BOSS_TILE_PX), 8);

@@ -33,6 +33,9 @@ IMAGE parfait "enemies/parfait.png" FAST
 IMAGE waffle "enemies/waffle.png" FAST
 IMAGE roll "enemies/roll.png" FAST
 
+SPRITE imgMike "enemies/mike.png" 4 6 FAST 20
+SPRITE imgTsukasa "enemies/tsukasa.png" 4 6 FAST 20
+SPRITE imgMegumu "enemies/megumu.png" 4 6 FAST 20
 SPRITE imgChimata "enemies/chimata.png" 4 6 FAST 20
 
 SPRITE imgSmallRedBullet "bullets/smallred.png" 1 1 FAST 5

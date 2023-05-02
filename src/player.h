@@ -115,7 +115,7 @@ void updatePlayerShot(){
 
 void spawnBomb(){
 	killBullets = TRUE;
-	// SND_startPlayPCM_XGM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 15, SOUND_PCM_CH2);
+	SND_startPlayPCM_XGM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 15, SOUND_PCM_CH2);
 	spawnExplosion(random() % GAME_WIDTH, random() % GAME_HEIGHT, TRUE);
 }
 
@@ -144,7 +144,7 @@ void updatePlayerHit(){
 		playerPos.y = PLAYER_INIT_Y;
 		playerLives -= 1;
 		noMiss = FALSE;
-		// XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
+		XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
 		spawnExplosion(fix16ToInt(playerPos.x), fix16ToInt(playerPos.y), FALSE);
 		// if(playerLives < 0) playerLives = 0;
 		if(playerLives < 0) gameOver = TRUE;
@@ -214,24 +214,26 @@ static void updateDemoMove(){
 	}
 
 	// bullet
-	foundBullet = FALSE;
-	for(s16 j = 0; j < ENEMY_BULLET_LIMIT; j++) if(bullets[j].active && !foundBullet){
+	if(!foundCentipede){
+		foundBullet = FALSE;
+		for(s16 j = 0; j < ENEMY_BULLET_LIMIT; j++) if(bullets[j].active && !foundBullet){
 		demoDist = getApproximatedDistance(
 			fix16ToFix32(fix16Sub(playerPos.x, bullets[j].pos.x)),
 			fix16ToFix32(fix16Sub(playerPos.y, bullets[j].pos.y)));
 		if(demoDist <= FIX32(48)){
 			foundBullet = TRUE;
 			if(bullets[j].pos.y < playerPos.y && playerPos.y > FIX16(GAME_HEIGHT - (random() % 16 + 32)))
-				demoAngle = bullets[j].pos.x < playerPos.x ? 128 : 384;
+				demoAngle = playerPos.x < FIX16(GAME_WIDTH / 2) ? 128 : 384;
 			else{
 				if(playerPos.y >= FIX16(GAME_WIDTH / 4 * 3))
-					demoAngle = bullets[j].pos.x < playerPos.x ? 896 : 640;
+					demoAngle = playerPos.x < FIX16(GAME_WIDTH / 2) ? 896 : 640;
 				else 
-					demoAngle = bullets[j].pos.x < playerPos.x ? 128 : 384;
+					demoAngle = playerPos.x < FIX16(GAME_WIDTH / 2) ? 128 : 384;
 			}
 			playerVelocity.x = cosFix16(demoAngle);
 			playerVelocity.y = sinFix16(demoAngle);
 		}
+	}
 	}
 
 	playerPos.x = fix16Add(playerPos.x, fix16Mul(playerVelocity.x, PLAYER_SPEED));
@@ -289,6 +291,10 @@ void updatePlayer(){
 			if(demo) updateDemoShot();
 			else updatePlayerShot();
 			updatePlayerBomb();
+			if(demo && (controls.a || controls.b || controls.c || controls.start)){
+				resetGame();
+				demo = FALSE;
+			}
 		} else if(gameOver) resetPlayer();
 	}
 }

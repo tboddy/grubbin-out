@@ -63,7 +63,7 @@ static void moveCentipede(s16 i){
 static void hitCentipede(s16 i){
 	spawnExplosion(fix16ToInt(centipedes[i].pos.x), fix16ToInt(centipedes[i].pos.y), TRUE);
 	centipedes[i].health -= CENTIPEDE_HIT;
-	// XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
+	XGM_startPlayPCM(SFX_EXPLOSION_1, 1, SOUND_PCM_CH4);
 	currentScore += 15;
 	if(centipedes[i].health < 0){
 		struct podSpawner pSpawn = {
@@ -73,7 +73,7 @@ static void hitCentipede(s16 i){
 		spawnPod(pSpawn);
 		destroyCentipede(i);
 		currentScore += currentZone >= 10 ? 1000 : 500;
-		// XGM_startPlayPCM(SFX_EXPLOSION_3, 2, SOUND_PCM_CH4);
+		XGM_startPlayPCM(SFX_EXPLOSION_3, 2, SOUND_PCM_CH4);
 	}
 	else if(centipedes[i].health <= 20)
 		SPR_setAnim(centipedes[i].image, 2);

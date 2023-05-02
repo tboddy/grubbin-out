@@ -47,8 +47,8 @@ void checkEnemyBulletCollision(s16 i){
 		spawnExplosion(fix16ToInt(bullets[i].pos.x), fix16ToInt(bullets[i].pos.y), FALSE);
 		destroyEnemyBullet(i);
 		if(!demo){
-			// hitPlayer = TRUE;
-			// killBullets = TRUE;
+			hitPlayer = TRUE;
+			killBullets = TRUE;
 			// SND_startPlayPCM_XGM(SFX_EXPLOSION2, 15, SOUND_PCM_CH2);
 		}
 	} else if(!bullets[i].grazed){

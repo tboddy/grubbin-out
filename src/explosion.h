@@ -22,6 +22,7 @@ void loadExplosion(){
 }
 
 void spawnExplosion(s16 x, s16 y, bool isPlayerShot){
+	if(!gameOver){
 	SPR_setFrame(isPlayerShot ? explosionImagePlayerShot : explosionImage, 0);
 	SPR_setHFlip(isPlayerShot ? explosionImagePlayerShot : explosionImage, isPlayerShot ? explosionPlayerFlipped : explosionFlipped);
 	SPR_setPosition(isPlayerShot ? explosionImagePlayerShot : explosionImage, x - EXPLOSION_SPRITE_OFFSET, y - EXPLOSION_SPRITE_OFFSET);
@@ -32,6 +33,7 @@ void spawnExplosion(s16 x, s16 y, bool isPlayerShot){
 		explosionClock = 0;
 		explosionFlipped = !explosionFlipped;
 	}
+}
 	// XGM_startPlayPCM(random() % 2 < 1 ? SFX_EXPLOSION_1 : SFX_EXPLOSION_2, 1, SOUND_PCM_CH4);
 }
 

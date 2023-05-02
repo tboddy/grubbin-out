@@ -12,18 +12,22 @@ bool started, loadedStart;
 // menu
 
 #define START_MENU_X 8
-#define START_MENU_Y 20
+#define START_MENU_Y 18
 
 u8 currentStartMenu, lastStartMenu;
 bool selectingStartMenu, aboutShowing;
 char startHighScoreStr[10];
 
 static void loadMenu(){
-	VDP_drawText("PRESS ANY BUTTON", START_MENU_X, START_MENU_Y);
-	VDP_drawText("2023 T.BODDY", 19, 26);
-	intToStr(highScore, startHighScoreStr, 8);
-	VDP_drawText("HI", 1, 26);
-	VDP_drawText(startHighScoreStr, 4, 26);
+	VDP_drawText("a touhou fangame", START_MENU_X, START_MENU_Y - 1);
+	VDP_drawText("PRESS ANY BUTTON", START_MENU_X, START_MENU_Y + 1);
+	VDP_drawText("a SHOOT", START_MENU_X, START_MENU_Y + 3);
+	VDP_drawText("b FOCUS", START_MENU_X, START_MENU_Y + 4);
+	VDP_drawText("c BOMB", START_MENU_X, START_MENU_Y + 5);
+	VDP_drawText("2023  TBODDY.ITCH.IO", START_MENU_X - 2, 26);
+	// intToStr(highScore, startHighScoreStr, 8);
+	// VDP_drawText("HI", 1, 26);
+	// VDP_drawText(startHighScoreStr, 4, 26);
 }
 
 void selectStartMenu(){
@@ -57,7 +61,7 @@ static void updateMenu(){
 // logo
 
 #define START_LOGO_X 8
-#define START_LOGO_Y 3
+#define START_LOGO_Y 1
 
 void loadStartLogo(){
 	VDP_drawImageEx(BG_A, &startLogo, TILE_ATTR_FULL(PAL1, 0, 0, 0, START_I + 8), START_LOGO_X, START_LOGO_Y, 0, DMA_QUEUE);
@@ -103,14 +107,15 @@ static void updateSega(){
 		case START_LIMIT - 10:
 			loadStartLogo();
 			loadMenu();
+			XGM_startPlay(&bgmStart);
 			break;
 	}
 }
 
 static void startDemo(){
-	demo = TRUE;
 	selectingStartMenu = TRUE;
 	resetStart();
+	demo = TRUE;
 	VDP_setTextPriority(1);
 	loadGame();
 }
@@ -119,6 +124,7 @@ static void startDemo(){
 // main loop
 
 void loadStart(){
+	demo = FALSE;
 	VDP_setTextPriority(0);
 	VDP_setScreenWidth256();
 	playerLives = 2;
